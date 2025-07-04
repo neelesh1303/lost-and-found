@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lost & Found Item Report</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-color: #f0f2f5;
+    }
+
+    header {
+      background-color: #2f80ed;
+      padding: 20px;
+      text-align: center;
+      color: white;
+      font-size: 24px;
+    }
+
+    .top-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .top-link a {
+      text-decoration: none;
+      color: #2f80ed;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    form {
+      max-width: 600px;
+      background-color: #ffffff;
+      margin: 30px auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 20px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 25px;
+      background-color: #2f80ed;
+      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1c5dbb;
+    }
+
+    #image-preview {
+      display: none;
+      margin-top: 10px;
+      max-height: 300px;
+      width: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #fff;
+      margin-top: 40px;
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    @media (max-width: 600px) {
+      form {
+        margin: 20px;
+        padding: 20px;
+      }
+
+      header {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>Lost & Found Item Report</header>
+
+  <div class="top-link">
+    <a href="{{ url_for('reported_items') }}">View Reported Items</a>
+  </div>
+
+  <form action="/submit" method="POST" enctype="multipart/form-data">
+    <label for="name">Your Name</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required />
+
+    <label for="phone">Phone</label>
+    <input type="tel" id="phone" name="phone" required />
+
+    <label for="category">Category</label>
+    <select id="category" name="category" required>
+      <option value="">--Select Category--</option>
+      <option value="electronics">Electronics</option>
+      <option value="documents">Documents</option>
+      <option value="clothing">Clothing</option>
+      <option value="others">Others</option>
+    </select>
+
+    <label for="description">Item Description</label>
+    <textarea id="description" name="description" rows="4" required></textarea>
+
+    <label for="reportedDate">Date Reported</label>
+    <input type="date" id="reportedDate" name="reportedDate" required />
+
+    <label for="status">Status</label>
+    <select id="status" name="status" required>
+      <option value="">--Select Status--</option>
+      <option value="lost">Lost</option>
+      <option value="found">Found</option>
+      <option value="resolved">Resolved</option>
+    </select>
+
+    <label for="image">Upload Item Image (optional)</label>
+    <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)" />
+    <img id="image-preview" />
+
+    <button type="submit">Submit Report</button>
+  </form>
+
+  <footer>&copy; 2025 Lost & Found. All rights reserved.</footer>
+
+  <script>
+    function previewImage(event) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        const output = document.getElementById('image-preview');
+        output.src = reader.result;
+        output.style.display = 'block';
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  </script>
+
+</body>
+</html>
